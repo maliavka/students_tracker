@@ -20,44 +20,23 @@ class Student(models.Model):
     address = models.CharField(max_length=225, null=True, blank=True)
 
     def get_info(self):
-        return f'{self.first_name}{self.last_name}{self.birth_date}'
+        return f'{self.first_name} {self.last_name} {self.birth_date}'
+
 
     @classmethod
     def generate_student(cls):
-        student = cls(
-            first_name='D',
-            last_name='K',
-            birth_date=datetime.now().date(),
-            email='hfgydfgy@gmail.com',
-            telephone='1234566',
-        )
-        student.save()
-
-    @classmethod
-    def generate_fake_student(cls):
         fake = Faker()
         student = cls(
-            first_name=fake.name(),
-            last_name=((fake.name()).split())[1],
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
             birth_date=datetime.now().date(),
             email=fake.email(),
-            telephone=(random.choice(int) for i in range(7)),
+            telephone=fake.phone_number(),
         )
         student.save()
+        return student
 
 
-    @classmethod
-    def generate_100_fake_student(cls):
-        fake = Faker()
-        for i in range(100):
-            student = cls(
-                first_name=fake.name(),
-                last_name=((fake.name()).split())[1],
-                birth_date=datetime.now().date(),
-                email=fake.email(),
-                telephone=(random.choice(int) for i in range(7)),
-            )
-            student.save()
 
 
 class Group(models.Model):
