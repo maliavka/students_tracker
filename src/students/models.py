@@ -37,8 +37,6 @@ class Student(models.Model):
         return student
 
 
-
-
 class Group(models.Model):
     group_name = models.CharField(max_length=25)
     faculty_name = models.CharField(max_length=25)
