@@ -10,6 +10,8 @@ CREATE TABLE students_STUDENT(
 first_name varchar(20)
 );
 '''
+
+
 class Student(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
@@ -21,7 +23,6 @@ class Student(models.Model):
 
     def get_info(self):
         return f'{self.first_name} {self.last_name} {self.birth_date}'
-
 
     @classmethod
     def generate_student(cls):
@@ -38,7 +39,20 @@ class Student(models.Model):
 
 
 class Group(models.Model):
-    group_name = models.CharField(max_length=25)
-    faculty_name = models.CharField(max_length=25)
-    course_name = models.IntegerField()
+    group_number = models.IntegerField
+    curator = models.CharField(max_length=25)
     start_date = models.DateField()
+
+    # def get_info_group(self):
+    #     return f'{self.number} {self.curator} {self.start_date}'
+    #
+    # @classmethod
+    # def generate_group(cls):
+    #     fake = Faker()
+    #     group = cls(
+    #         group_number=fake.random_int(min=100, max=599, step=1),
+    #         curator=fake.name(),
+    #         start_date=fake.year(),
+    #     )
+    #     group.save()
+    #     return group
