@@ -39,20 +39,20 @@ class Student(models.Model):
 
 
 class Group(models.Model):
-    group_number = models.IntegerField
+    group_number = models.IntegerField()
     curator = models.CharField(max_length=25)
     start_date = models.DateField()
 
-    # def get_info_group(self):
-    #     return f'{self.number} {self.curator} {self.start_date}'
-    #
-    # @classmethod
-    # def generate_group(cls):
-    #     fake = Faker()
-    #     group = cls(
-    #         group_number=fake.random_int(min=100, max=599, step=1),
-    #         curator=fake.name(),
-    #         start_date=fake.year(),
-    #     )
-    #     group.save()
-    #     return group
+    def get_info_group(self):
+        return f'{self.group_number}: {self.curator}, {self.start_date}'
+
+    @classmethod
+    def generate_group(cls):
+        fake = Faker()
+        group = cls(
+            group_number=fake.random_int(min=100, max=999, step=1),
+            curator=fake.name(),
+            start_date=fake.date(pattern="%Y-%m-%d", end_datetime=None),
+        )
+        group.save()
+        return group

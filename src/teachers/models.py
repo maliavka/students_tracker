@@ -11,7 +11,6 @@ class Teacher(models.Model):
     email = models.EmailField()
     # add avatar TODO
     telephone = models.CharField(max_length=16)  # clean phone TODO
-    address = models.CharField(max_length=225, null=True, blank=True)
 
     def get_info(self):
         return f'{self.first_name} {self.last_name}: {self.email}, {self.birth_date}'
