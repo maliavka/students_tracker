@@ -1,5 +1,8 @@
+import random
+
 from datetime import datetime
 from django.db import models
+from faker import Faker
 
 
 '''
@@ -17,16 +20,27 @@ class Student(models.Model):
     address = models.CharField(max_length=225, null=True, blank=True)
 
     def get_info(self):
-        return f'{self.first_name}{self.last_name}{self.birth_date}'
+        return f'{self.first_name} {self.last_name} {self.birth_date}'
 
 
     @classmethod
     def generate_student(cls):
+        fake = Faker()
         student = cls(
-            first_name='D',
-            last_name='K',
-            birth_date=...,
-            email='hfgydfgy@gmail.com',
-            telephone='1234566',
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            birth_date=datetime.now().date(),
+            email=fake.email(),
+            telephone=fake.phone_number(),
         )
         student.save()
+        return student
+
+
+
+
+class Group(models.Model):
+    group_name = models.CharField(max_length=25)
+    faculty_name = models.CharField(max_length=25)
+    course_name = models.IntegerField()
+    start_date = models.DateField()
