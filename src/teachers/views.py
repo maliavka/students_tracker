@@ -22,8 +22,7 @@ def teachers(request):
 
     for teacher in queryset:
         response += teacher.get_info() + '<br>'
-    print('queryset.query')
-    print(queryset.query)
+
     return render(request,
                   'teachers_list.html',
                   context={'teachers_list': response})
