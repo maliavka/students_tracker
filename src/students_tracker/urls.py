@@ -18,9 +18,15 @@ from django.urls import path
 
 
 from students.views import generate_student, students
+from teachers.views import generate_teacher, teachers
+# from students.views import generate_group, groups
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('generate_stud/', generate_student),
+    path('gen-teach/', generate_teacher),
+    # path('gen-group/', generate_group),
     path('students/', students),
+    path('teachers/', teachers),
+    # path('groups/', groups),
 ]
