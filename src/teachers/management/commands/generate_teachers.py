@@ -13,6 +13,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        number = int(options.get('number') or 100)
+        number = int(options.get('number') or 40)
         for _ in range(number):
             Teacher.generate_teacher()
