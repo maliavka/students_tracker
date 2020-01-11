@@ -14,14 +14,23 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Teacher',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')
+                 ),
                 ('first_name', models.CharField(max_length=20)),
                 ('last_name', models.CharField(max_length=20)),
                 ('birth_date', models.DateField()),
                 ('position', models.CharField(max_length=50)),
                 ('email', models.EmailField(max_length=254)),
                 ('telephone', models.CharField(max_length=16)),
-                ('address', models.CharField(blank=True, max_length=225, null=True)),
+                ('address', models.CharField(
+                    blank=True,
+                    max_length=225,
+                    null=True)
+                 ),
             ],
         ),
     ]

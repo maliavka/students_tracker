@@ -1,8 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 from students.models import Student
 from students.models import Group
+from students.forms import StudentAddForm, GroupAddForm
 
 
 def generate_student(request):
@@ -53,4 +54,31 @@ def groups(request):
         response += group.get_info_group() + '<br>'
     print('queryset.query')
     print(queryset.query)
-    return render(request, 'groups_list.html', context={'groups_list': response})
+    return render(request, 'groups_list.html',
+                  context={'groups_list': response})
+
+
+def students_add(request):
+
+    if request.method == 'POST':
+        form = StudentAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/students/')
+    else:
+        form = StudentAddForm()
+
+    return render(request, 'students_add.html', context={'form': form})
+
+
+def groups_add(request):
+
+    if request.method == 'POST':
+        form = GroupAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/groups/')
+    else:
+        form = GroupAddForm()
+
+    return render(request, 'groups_add.html', context={'form': form})
