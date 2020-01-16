@@ -1,9 +1,11 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, \
+    HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
+from django.urls import reverse
 
 from students.models import Student
 from students.models import Group
-from students.forms import StudentAddForm, GroupAddForm
+from students.forms import StudentAddForm, GroupAddForm, ContactForm
 
 
 def generate_student(request):
@@ -64,11 +66,29 @@ def students_add(request):
         form = StudentAddForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/students/')
+            return HttpResponseRedirect(reverse('students'))
     else:
         form = StudentAddForm()
 
     return render(request, 'students_add.html', context={'form': form})
+
+
+def students_edit(request, pk):
+
+    try:
+        student = Student.objects.get(id=pk)
+    except Student.DoesNotExist:
+        return HttpResponseNotFound(f'Students with id {pk} does not exist')
+
+    if request.method == 'POST':
+        form = StudentAddForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('students'))
+    else:
+        form = StudentAddForm(instance=student)
+
+    return render(request, 'students_edit.html', context={'form': form, 'pk': pk})
 
 
 def groups_add(request):
@@ -77,8 +97,41 @@ def groups_add(request):
         form = GroupAddForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/groups/')
+            return HttpResponseRedirect(reverse('groups'))
     else:
         form = GroupAddForm()
 
     return render(request, 'groups_add.html', context={'form': form})
+
+
+def groups_edit(request, pk):
+
+    try:
+        group = Group.objects.get(id=pk)
+    except Group.DoesNotExist:
+        return HttpResponseNotFound(f'Group with id {pk} does not exist')
+
+    if request.method == 'POST':
+        form = GroupAddForm(request.POST, instance=group)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('groups'))
+    else:
+        form = GroupAddForm(instance=group)
+
+    return render(request, 'groups_edit.html', context={'form': form, 'pk': pk})
+
+
+def contact(request):
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            with open('logs.txt', 'a') as f:
+                f.write(f'{form}') # This is to be finalized
+            return HttpResponseRedirect(reverse('students'))
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', context={'form': form})

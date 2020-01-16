@@ -6,8 +6,8 @@
 </head>
 <body>
 
-Add Teacher
-<form action="{% url 'teachers-add' %}" method="post">
+Edit Group
+<form action="{% url 'groups-edit' pk %}" method="post">
     {% csrf_token %}
 {{ form.as_p }}
     <input name="submit" type="submit">
