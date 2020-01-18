@@ -15,23 +15,16 @@ def generate_teacher(request):
 
 def teachers(request):
     queryset = Teacher.objects.all()
-    response = ''
-    print("request.GET.get('info')")
-    print(request.GET)
     info = request.GET.get('info')
-
     if info:
         queryset = queryset.filter(
             Q(first_name__contains=info) |
             Q(last_name__contains=info) |
             Q(email__contains=info))
 
-    for teacher in queryset:
-        response += teacher.get_info() + '<br>'
-
     return render(request,
                   'teachers_list.html',
-                  context={'teachers_list': response})
+                  context={'teachers': queryset})
 
 
 def teachers_add(request):

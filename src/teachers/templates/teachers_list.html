@@ -1,17 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <title>Teachers' List</title>
 </head>
 <body>
 
-<form action="/teachers/" method="get">
+Teachers' List
+<form action="{% url 'teachers' %}" method="get">
    <input name="info">
-   <input name="submit" type="submit">
+   <input value="Search Teacher" type="submit">
+
+<a href="{% url 'teachers-add' %}">
+    <p><input type="button" value="Add Teacher"></p>
+</a>
+
 </form>
+
+{% for teacher in teachers %}
+    <a href="{% url 'teachers-edit' pk=teacher.id %}"> Edit {{ teacher.id }} </a>
+     {{ teacher.first_name }} {{ teacher.last_name }}: {{ teacher.email }}<br>
+{% endfor %}
 
 {{ teachers_list|safe }}
 
-</body>
-</html>
+{% endblock content %}

@@ -1,17 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <title>Students' List</title>
 </head>
 <body>
 
-<form action="/students/" method="get">
+Students' List
+<form action="{% url 'students' %}" method="get">
    <input name="first_name">
-   <input name="submit" type="submit">
+   <input value="Search Student" type="submit" >
+
+<a href="{% url 'students-add' %}">
+    <p><input type="button" value="Add Student"></p>
+</a>
+
+<a href="{% url 'contact' %}">
+    <p><input type="button" value="Contact Us"></p>
+</a>
+
 </form>
+
+{% for student in students %}
+    <a href="{% url 'students-edit' pk=student.id %}"> Edit {{ student.id }} </a>
+     {{ student.first_name }} {{ student.last_name }}: {{ student.email }}<br>
+{% endfor %}
 
 {{ students_list|safe }}
 
-</body>
-</html>
+{% endblock content %}

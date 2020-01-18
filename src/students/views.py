@@ -15,27 +15,12 @@ def generate_student(request):
 
 def students(request):
     queryset = Student.objects.all()
-    response = ''
-
-    print("request.GET.get('first_name')")
     fn = request.GET.get('first_name')
     if fn:
-        # __contains LIKE %{}%
-        # queryset = queryset.filter(first_name__contains=fn)
-
-        # __endswith LIKE %{}
-        # queryset = queryset.filter(first_name__endswith=fn)
-
-        # __startswith LIKE {}%
-        queryset = queryset.filter(first_name__istartswith=fn)
-
-    for student in queryset:
-        response += student.get_info() + '<br>'
-    print('queryset.query')
-    print(queryset.query)
+        queryset = queryset.filter(first_name__contains=fn)
     return render(request,
                   'students_list.html',
-                  context={'students_list': response})
+                  context={'students': queryset})
 
 
 def generate_group(request):
@@ -45,19 +30,12 @@ def generate_group(request):
 
 def groups(request):
     queryset = Group.objects.all()
-    response = ''
-    print("request.GET.get('curator')")
     cur = request.GET.get('curator')
     if cur:
         # __contains LIKE %{}%
         queryset = queryset.filter(curator__contains=cur)
-
-    for group in queryset:
-        response += group.get_info_group() + '<br>'
-    print('queryset.query')
-    print(queryset.query)
     return render(request, 'groups_list.html',
-                  context={'groups_list': response})
+                  context={'groups': queryset})
 
 
 def students_add(request):
@@ -128,8 +106,12 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
+            email = form.cleaned_data.get('email')
+            subject = form.cleaned_data.get('subject')
+            message = form.cleaned_data.get('text')
             with open('logs.txt', 'a') as f:
-                f.write(f'{form}') # This is to be finalized
+
+                f.write(f'{email}: {subject} ("{message}")\n')
             return HttpResponseRedirect(reverse('students'))
     else:
         form = ContactForm()
