@@ -21,9 +21,19 @@ Groups List
 
 </form>
 
+<table style="width:100%">
+  <tr>
+    <th>ID</th>
+    <th>Curator</th>
+    <th>Start Date</th>
+  </tr>
+
 {% for group in groups %}
-    <a href="{% url 'groups-edit' pk=group.id %}"> Edit {{ group.id }} </a>
-     {{ group.curator }} {{ group.start_date }}<br>
+  <tr>
+    <td><a href="{% url 'groups-edit' pk=group.id %}"> Edit {{ group.id }} </a></td>
+    <td>{{ group.curator }}</td>
+    <td>{{ group.start_date }}</td>
+  </tr>
 {% endfor %}
 
 {{ groups_list|safe }}
