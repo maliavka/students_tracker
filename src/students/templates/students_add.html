@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}Add Student{% endblock title %}
 
-    <title>Add Student</title>
-</head>
-<body>
+{% block content %}
 
 Add Student
 <form action="{% url 'students-add' %}" method="post">
