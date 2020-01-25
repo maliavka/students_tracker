@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debugpip_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'students_tracker.urls'
@@ -81,8 +81,14 @@ WSGI_APPLICATION = 'students_tracker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hillel',
+        'USER': 'tanya',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 

@@ -1,5 +1,7 @@
+import random
+
 from django.core.management.base import BaseCommand
-from students.models import Student
+from students.models import Student, Group
 
 
 class Command(BaseCommand):
@@ -13,6 +15,16 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        Group.objects.all().delete()
+        Student.objects.all().delete()
+
+        groups = [Group.objects.create(curator=f'group_{i}') for i in range(10)]
+
         number = int(options.get('number') or 100)
+
+        # for student in Student.objects.all():
+
         for _ in range(number):
-            Student.generate_student()
+            student = Student.generate_student()
+            student.group = random.choice(groups)
+            student.save()

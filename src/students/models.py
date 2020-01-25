@@ -18,6 +18,7 @@ class Student(models.Model):
     # add avatar TODO
     telephone = models.CharField(max_length=16)  # clean phone TODO
     address = models.CharField(max_length=225, null=True, blank=True)
+    group = models.ForeignKey('students.Group', null=True, blank=True, on_delete=models.CASCADE)
 
     def get_info(self):
         return f'{self.first_name} {self.last_name} {self.birth_date}'
@@ -37,9 +38,9 @@ class Student(models.Model):
 
 
 class Group(models.Model):
-    group_number = models.IntegerField()
-    curator = models.CharField(max_length=25)
-    start_date = models.DateField()
+    # group_number = models.IntegerField()
+    curator = models.CharField(max_length=128)
+    # start_date = models.DateField()
 
     def get_info_group(self):
         return f'{self.group_number}: {self.curator}, {self.start_date}'
@@ -50,7 +51,7 @@ class Group(models.Model):
         group = cls(
             group_number=fake.random_int(min=100, max=999, step=1),
             curator=fake.name(),
-            start_date=fake.date(pattern="%Y-%m-%d", end_datetime=None),
+            start_date=datetime.now().date(),
         )
         group.save()
         return group
