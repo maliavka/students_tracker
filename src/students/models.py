@@ -1,5 +1,3 @@
-import random
-
 from datetime import datetime
 from django.db import models
 from faker import Faker
