@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <title>Edit Group</title>
 </head>
 <body>
 
@@ -10,8 +10,7 @@ Edit Group
 <form action="{% url 'groups-edit' pk %}" method="post">
     {% csrf_token %}
 {{ form.as_p }}
-    <input name="submit" type="submit">
+    <input value="Save" type="submit">
 </form>
 
-</body>
-</html>
+{% endblock content %}

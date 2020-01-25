@@ -1,17 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <title>Groups List</title>
 </head>
 <body>
 
-<form action="/groups/" method="get">
+Groups List
+<form action="{% url 'groups' %}" method="get">
    <input name="curator">
-   <input name="submit" type="submit">
+   <input value="Search Curator" type="submit">
+
+<a href="{% url 'groups-add' %}">
+    <p><input type="button" value="Add Group"></p>
+</a>
+
+<a href="{% url 'contact' %}">
+    <p><input type="button" value="Contact Us"></p>
+</a>
+
 </form>
+
+{% for group in groups %}
+    <a href="{% url 'groups-edit' pk=group.id %}"> Edit {{ group.id }} </a>
+     {{ group.curator }} {{ group.start_date }}<br>
+{% endfor %}
 
 {{ groups_list|safe }}
 
-</body>
-</html>
+{% endblock content %}
