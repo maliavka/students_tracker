@@ -6,9 +6,7 @@ from django.db import migrations
 def forward(apps, schema_editor):
     Student = apps.get_model('students', 'Student')
     for student in Student.objects.all().only('id', 'telephone').iterator():
-        student.telephone = ''.join(
-            x for x in student.telephone if x.isdigit()
-        )
+        student.telephone = ''.join(x for x in student.telephone if x.isdigit())
         student.save(update_fields=['telephone'])
 
 

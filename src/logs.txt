@@ -1,0 +1,3 @@
+<tr><th><label for="id_email">Email:</label></th><td><input type="email" name="email" value="dfgdg@gmail.com" required id="id_email"></td></tr>
+<tr><th><label for="id_subject">Subject:</label></th><td><input type="text" name="subject" value="addadd" required id="id_subject"></td></tr>
+<tr><th><label for="id_text">Text:</label></th><td><input type="text" name="text" value="sdfff" required id="id_text"></td></tr>

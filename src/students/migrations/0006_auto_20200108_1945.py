@@ -10,9 +10,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='group',
-            name='group_number',
-            field=models.IntegerField(),
-        ),
+        migrations.AlterField(model_name='group', name='group_number', field=models.IntegerField()),
     ]
