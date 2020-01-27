@@ -1,5 +1,9 @@
+import random
+
 from django.core.management.base import BaseCommand
-from students.models import Student
+from faker import Faker
+from students.models import Student, Group
+
 
 
 class Command(BaseCommand):
@@ -13,6 +17,20 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        Group.objects.all().delete()
+        Student.objects.all().delete()
+        fake = Faker()
+
+        groups = [Group.objects.create(
+            name=f'group_{i}',
+            curator=fake.name(),
+            start_date=fake.date(pattern="%Y-%m-%d", end_datetime=None)
+        )
+                  for i in range(10)]
+
         number = int(options.get('number') or 100)
+        # for student in Student.objects.all():
         for _ in range(number):
-            Student.generate_student()
+            student = Student.generate_student()
+            student.group = random.choice(groups)
+            student.save()

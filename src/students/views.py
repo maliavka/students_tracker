@@ -14,7 +14,7 @@ def generate_student(request):
 
 
 def students(request):
-    queryset = Student.objects.all()
+    queryset = Student.objects.all().select_related('group')
     fn = request.GET.get('first_name')
     if fn:
         queryset = queryset.filter(first_name__contains=fn)
