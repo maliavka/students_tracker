@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}Edit Teacher{% endblock title %}
 
-    <title>Edit Teacher</title>
-</head>
-<body>
+{% block content %}
 
 Edit Teacher
 <form action="{% url 'teachers-edit' pk %}" method="post">

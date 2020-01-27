@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}Students' List{% endblock title %}
 
-    <title>Students' List</title>
-</head>
-<body>
+{% block content %}
 
 Students' List
 <form action="{% url 'students' %}" method="get">
@@ -39,7 +37,5 @@ Students' List
 {% endfor %}
 
 </table>
-
-{{ students_list|safe }}
 
 {% endblock content %}
