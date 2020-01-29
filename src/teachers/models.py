@@ -4,13 +4,13 @@ from faker import Faker
 
 
 class Teacher(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    birth_date = models.DateField()
+    first_name = models.CharField(max_length=20, null=True, blank=True)
+    last_name = models.CharField(max_length=20, null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True, default=None)
     position = models.CharField(max_length=50)
     email = models.EmailField()
     # add avatar TODO
-    telephone = models.CharField(max_length=16)  # clean phone TODO
+    telephone = models.CharField(max_length=30, null=True, blank=True)  # clean phone TODO
 
     def get_info(self):
         return f'{self.first_name} ' \
