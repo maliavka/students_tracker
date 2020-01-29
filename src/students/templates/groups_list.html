@@ -23,13 +23,15 @@ Groups List
   <tr>
     <th>ID</th>
     <th>Curator</th>
+    <th>Headman</th>
     <th>Start Date</th>
   </tr>
 
 {% for group in groups %}
   <tr>
     <td><a href="{% url 'groups-edit' pk=group.id %}"> Edit {{ group.id }} </a></td>
-    <td>{{ group.curator }}</td>
+    <td><a href="{% url 'teachers-edit' pk=group.id %}"> {{ group.curator.teach_name }} </a></td>
+    <td><a href="{% url 'students-edit' pk=group.id %}"> {{ group.headman.st_name }} </a></td>
     <td>{{ group.start_date }}</td>
   </tr>
 {% endfor %}
