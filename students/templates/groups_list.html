@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Groups List{% endblock title %}
+
+{% block content %}
+
+Groups List
+<form action="{% url 'groups' %}" method="get">
+   <input name="curator">
+   <input value="Search Curator" type="submit">
+
+<a href="{% url 'groups-add' %}">
+    <p><input type="button" value="Add Group"></p>
+</a>
+
+<a href="{% url 'contact' %}">
+    <p><input type="button" value="Contact Us"></p>
+</a>
+
+</form>
+
+<table style="width:100%">
+  <tr>
+    <th>ID</th>
+    <th>Curator</th>
+    <th>Headman</th>
+    <th>Start Date</th>
+  </tr>
+
+{% for group in groups %}
+  <tr>
+    <td><a href="{% url 'groups-edit' pk=group.id %}"> Edit {{ group.id }} </a></td>
+    <td> {{ group.curator.teach_name }} </td>
+    <td> {{ group.headman.st_name }} </td>
+    <td>{{ group.start_date }}</td>
+  </tr>
+{% endfor %}
+
+</table>
+
+{% endblock content %}

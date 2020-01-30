@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Students' List{% endblock title %}
+
+{% block content %}
+
+Students' List
+<form action="{% url 'students' %}" method="get">
+   <input name="first_name">
+   <input value="Search Student" type="submit" >
+
+<a href="{% url 'students-add' %}">
+    <p><input type="button" value="Add Student"></p>
+</a>
+
+<a href="{% url 'contact' %}">
+    <p><input type="button" value="Contact Us"></p>
+</a>
+
+</form>
+
+<table style="width:100%">
+  <tr>
+    <th>ID</th>
+    <th>Group</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+  </tr>
+
+{% for student in students %}
+  <tr>
+    <td><a href="{% url 'students-edit' pk=student.id %}"> Edit {{ student.id }} </a></td>
+    <td>{{ student.st_group.group_name }}</td>
+    <td>{{ student.first_name }}</td>
+    <td>{{ student.last_name }}</td>
+    <td>{{ student.email }}</td>
+  </tr>
+{% endfor %}
+
+</table>
+
+{% endblock content %}

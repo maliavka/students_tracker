@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Teacher{% endblock title %}
+
+{% block content %}
+
+Edit Teacher
+<form action="{% url 'teachers-edit' pk %}" method="post">
+    {% csrf_token %}
+{{ form.as_p }}
+    <input value="Save" type="submit">
+</form>
+
+{% endblock content %}
