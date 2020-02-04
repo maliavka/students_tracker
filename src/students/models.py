@@ -37,7 +37,7 @@ class Student(models.Model):
         return student
 
     def __str__(self):
-        return f'{self.id} {self.full_name} '
+        return f'{self.id} {self.full_name} {self.st_group} '
 
     @property
     def full_name(self):
@@ -66,5 +66,10 @@ class Group(models.Model):
         )
         group.save()
         return group
+
+    def __str__(self):
+        return f'Group {self.group_name} '
+
+
 
 
