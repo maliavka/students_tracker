@@ -80,8 +80,6 @@ WSGI_APPLICATION = 'students_tracker.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -125,15 +123,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-
 INTERNAL_IPS = [
     '127.0.0.1'
 ]
 
-
 try:
-    from students_tracker.settings_local import * #DATABASES
+    from students_tracker.settings_local import *    # DATABASES
 except ImportError:
     print('setting_local module not found!\n'*5)
-
-

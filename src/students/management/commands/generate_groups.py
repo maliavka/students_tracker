@@ -27,7 +27,7 @@ class Command(BaseCommand):
             teach_name=f'teacher_{j}',
             first_name=fake.first_name(),
             last_name=fake.last_name(),
-            birth_date=fake.date_of_birth(tzinfo=None, minimum_age=25,maximum_age=65),
+            birth_date=fake.date_of_birth(tzinfo=None, minimum_age=25, maximum_age=65),
             position=fake.job(),
             email=fake.email(),
             telephone=fake.phone_number(),

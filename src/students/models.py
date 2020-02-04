@@ -69,7 +69,3 @@ class Group(models.Model):
 
     def __str__(self):
         return f'Group {self.group_name} '
-
-
-
-
