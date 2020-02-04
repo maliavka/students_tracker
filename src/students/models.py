@@ -2,7 +2,6 @@ from datetime import datetime
 from django.db import models
 from faker import Faker
 
-
 '''
 CREATE TABLE students_STUDENT(
 first_name varchar(20)
@@ -11,13 +10,15 @@ first_name varchar(20)
 
 
 class Student(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    birth_date = models.DateField()
+    st_name = models.CharField(max_length=100, null=True, blank=True)
+    first_name = models.CharField(max_length=20, null=True, blank=True)
+    last_name = models.CharField(max_length=20, null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True, default=None)
     email = models.EmailField()
     # add avatar TODO
-    telephone = models.CharField(max_length=16)  # clean phone TODO
+    telephone = models.CharField(max_length=40, blank=True, default=None)  # clean phone TODO
     address = models.CharField(max_length=225, null=True, blank=True)
+    st_group = models.ForeignKey('students.Group', null=True, blank=True, on_delete=models.CASCADE)
 
     def get_info(self):
         return f'{self.first_name} {self.last_name} {self.birth_date}'
@@ -35,22 +36,36 @@ class Student(models.Model):
         student.save()
         return student
 
+    def __str__(self):
+        return f'{self.id} {self.full_name} {self.st_group} '
+
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
 
 class Group(models.Model):
-    group_number = models.IntegerField()
-    curator = models.CharField(max_length=25)
-    start_date = models.DateField()
+    group_name = models.CharField(max_length=128, null=True, blank=True)
+    # curator = models.CharField(max_length=25, null=True, blank=True)
+
+    curator = models.ForeignKey('teachers.Teacher', null=True, blank=True, on_delete=models.CASCADE)
+    headman = models.ForeignKey('students.Student', null=True, blank=True, on_delete=models.CASCADE)
+    start_date = models.DateField(null=True, blank=True, default=None)
 
     def get_info_group(self):
-        return f'{self.group_number}: {self.curator}, {self.start_date}'
+        return f'{self.group_name}: {self.curator}, {self.headman}, {self.start_date}'
 
     @classmethod
     def generate_group(cls):
         fake = Faker()
         group = cls(
-            group_number=fake.random_int(min=100, max=999, step=1),
-            curator=fake.name(),
+            # group_number=fake.random_int(min=100, max=999, step=1),
+            # curator=fake.name(),
+            # headman=fake.name(),
             start_date=fake.date(pattern="%Y-%m-%d", end_datetime=None),
         )
         group.save()
         return group
+
+    def __str__(self):
+        return f'Group {self.group_name} '
