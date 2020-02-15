@@ -1,14 +1,51 @@
-from django.forms import ModelForm, Form, EmailField, CharField
+from django.forms import ModelForm, Form, EmailField, CharField, ValidationError
 from django.core.mail import send_mail
 from django.conf import settings
 
 from students.models import Student, Group
 
 
-class StudentAddForm(ModelForm):
+class BaseStudentForm(ModelForm):
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        email_exists = Student.objects\
+            .filter(email__iexact=email)\
+            .exclude(email__iexact=self.instance.email)\
+            .exists()
+        if email_exists:
+            raise ValidationError(f'{email} is already used!')
+        return email
+
+    def clean_telephone(self):
+        telephone = self.cleaned_data['telephone']
+        telephone_exists = Student.objects \
+            .filter(telephone__iexact=telephone) \
+            .exclude(telephone__iexact=self.instance.telephone) \
+            .exists()
+        if telephone_exists:
+            raise ValidationError(f'{telephone} is already used!')
+        telephone = ''.join(i for i in telephone if i.isdigit())
+        return telephone
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name'].capitalize()
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data['last_name'].capitalize()
+        return last_name
+
+
+class StudentAddForm(BaseStudentForm):
     class Meta:
         model = Student
         fields = '__all__'
+
+
+class StudentAdminForm(BaseStudentForm):
+    class Meta:
+        model = Student
+        fields = ('id', 'email', 'first_name', 'last_name', 'telephone')
 
 
 class GroupAddForm(ModelForm):

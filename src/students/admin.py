@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from students.models import Student, Group
 from teachers.models import Teacher
+from students.forms import StudentAdminForm
 
 
 class GroupInline(admin.TabularInline):
@@ -9,10 +10,11 @@ class GroupInline(admin.TabularInline):
 
 
 class StudentAdmin(admin.ModelAdmin):
-    readonly_fields = ('email',)
+    # readonly_fields = ('email',)
     list_display = ('id', 'first_name', 'last_name', 'email', 'telephone', 'st_group')
     list_select_related = ('st_group',)
     list_per_page = 10
+    form = StudentAdminForm
 
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = super().get_readonly_fields(request, obj)
@@ -25,11 +27,13 @@ class StudentAdmin(admin.ModelAdmin):
         return False
 
 
-class StudentInline(admin.TabularInline):
+class StudentAdminInline(admin.TabularInline):
     model = Student
+    readonly_fields = ('email',)
+    show_change_link = True
 
 
-class TeacherInline(admin.TabularInline):
+class TeacherAdminInline(admin.TabularInline):
     model = Teacher
 
 
@@ -38,8 +42,8 @@ class GroupAdmin(admin.ModelAdmin):
     list_display = ('group_name', 'curator', 'headman', 'start_date')
     list_select_related = ('curator', 'headman',)
     list_per_page = 10
-    inlines = [TeacherInline, ]
-    inlines = [StudentInline, ]
+    inlines = [TeacherAdminInline, ]
+    inlines = [StudentAdminInline, ]
 
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = super().get_readonly_fields(request, obj)
