@@ -79,13 +79,6 @@ WSGI_APPLICATION = 'students_tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -129,13 +122,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'maliavkam86@gmail.com'
-EMAIL_HOST_PASSWORD = 'maliavka1234'
 
 INTERNAL_IPS = [
     '127.0.0.1'
 ]
+
+try:
+    from students_tracker.settings_local import *    # DATABASES
+except ImportError:
+    print('setting_local module not found!\n'*5)
