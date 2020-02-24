@@ -18,6 +18,9 @@ def students(request):
     fn = request.GET.get('first_name')
     if fn:
         queryset = queryset.filter(first_name__contains=fn)
+
+    print('VIEW STUDENTS')
+
     return render(request,
                   'students_list.html',
                   context={'students': queryset})
