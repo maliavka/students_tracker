@@ -21,11 +21,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('stud_and_groups/', include('students.urls')),
     path('teachers/', include('teachers.urls')),
+    path('silk/', include('silk.urls', namespace='silk')),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns=[
+    urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
-

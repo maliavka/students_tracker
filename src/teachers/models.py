@@ -4,13 +4,21 @@ from faker import Faker
 
 
 class Teacher(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    birth_date = models.DateField()
-    position = models.CharField(max_length=50)
-    email = models.EmailField()
+    teach_name = models.CharField(max_length=50, null=True, blank=True)
+
+    first_name = models.CharField(max_length=20, blank=True, default=None)
+    last_name = models.CharField(max_length=20, blank=True, default=None)
+    birth_date = models.DateField(null=True, blank=True, default=None)
+    position = models.CharField(max_length=50, blank=True, default=None)
+    email = models.EmailField(unique=True)
     # add avatar TODO
-    telephone = models.CharField(max_length=16)  # clean phone TODO
+    telephone = models.CharField(unique=True, max_length=40, blank=True, default=None)
+
+    def save(self, *args, **kwargs):
+        # pre_save
+        # self.email = self.email.lower()
+        super().save(*args, **kwargs)
+        # post_save
 
     def get_info(self):
         return f'{self.first_name} ' \
@@ -35,3 +43,13 @@ class Teacher(models.Model):
         )
         teacher.save()
         return teacher
+
+    def __str__(self):
+        return f'{self.id} {self.full_name} '
+
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+
+from teachers.signals import *
