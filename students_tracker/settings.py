@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'students',
     'teachers',
+    'silk',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'silk.middleware.SilkyMiddleware',
+    'students.middleware.LoggerMiddleware',
 ]
 
 ROOT_URLCONF = 'students_tracker.urls'
@@ -78,19 +81,6 @@ WSGI_APPLICATION = 'students_tracker.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hillel',
-        'USER': 'tanya',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
 
 
 # Password validation
@@ -135,13 +125,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'maliavkam86@gmail.com'
-EMAIL_HOST_PASSWORD = 'maliavka1234'
 
 INTERNAL_IPS = [
     '127.0.0.1'
 ]
+
+try:
+    from students_tracker.settings_local import *    # DATABASES
+except ImportError:
+    print('setting_local module not found!\n'*5)

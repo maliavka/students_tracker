@@ -3,7 +3,6 @@ import random
 from django.core.management.base import BaseCommand
 from faker import Faker
 from students.models import Student, Group
-from teachers.models import Teacher
 
 
 class Command(BaseCommand):
@@ -26,7 +25,7 @@ class Command(BaseCommand):
             # curator=random.choice(teachers),
             start_date=fake.date(pattern="%Y-%m-%d", end_datetime=None)
         )
-                  for i in range(10)]
+            for i in range(10)]
 
         number = int(options.get('number') or 100)
         # for student in Student.objects.all():
