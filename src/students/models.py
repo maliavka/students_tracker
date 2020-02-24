@@ -26,10 +26,10 @@ class Student(models.Model):
     st_group = models.ForeignKey('students.Group', null=True, blank=True, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        #pre_save
+        # pre_save
         # self.email = self.email.lower()
         super().save(*args, **kwargs)
-        #post_save
+        # post_save
 
     def get_info(self):
         return f'{self.first_name} {self.last_name} {self.birth_date}'

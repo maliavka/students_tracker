@@ -15,10 +15,10 @@ class Teacher(models.Model):
     telephone = models.CharField(unique=True, max_length=40, blank=True, default=None)
 
     def save(self, *args, **kwargs):
-        #pre_save
+        # pre_save
         # self.email = self.email.lower()
         super().save(*args, **kwargs)
-        #post_save
+        # post_save
 
     def get_info(self):
         return f'{self.first_name} ' \

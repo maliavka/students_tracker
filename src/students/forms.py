@@ -2,6 +2,8 @@ from django.forms import ModelForm, Form, EmailField, CharField, ValidationError
 from django.core.mail import send_mail
 from django.conf import settings
 
+from students.tasks import send_email_async
+
 from students.models import Student, Group
 
 
@@ -20,7 +22,7 @@ class BaseStudentForm(ModelForm):
         telephone = self.cleaned_data['telephone']
         telephone_exists = Student.objects \
             .filter(telephone__iexact=telephone) \
-            .exclude(telephone__iexact=self.instance.telephone) \
+            .exclude(id=self.instance.id) \
             .exists()
         if telephone_exists:
             raise ValidationError(f'{telephone} is already used!')
@@ -65,4 +67,7 @@ class ContactForm(Form):
         message = data['text']
         email_from = data['email']
         recipient_list = [settings.EMAIL_HOST_USER, ]
-        send_mail(subject, message, email_from, recipient_list)
+        student = Student.objects.get_or_create(email=email_from)[0]
+        # student = Student.objects.create(email=email_from)
+        # send_mail(subject, message, email_from, recipient_list)
+        send_email_async.delay(subject, message, recipient_list, student.id)
