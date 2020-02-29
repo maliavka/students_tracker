@@ -6,7 +6,7 @@ from students.views import (
     students,
     students_add,
     students_edit,
-    contact
+    contact, register, custom_login
 )
 from students.views import (
     generate_group,
@@ -20,6 +20,8 @@ urlpatterns = [
     path('students_add/', students_add, name='students-add'),
     path('students_edit/<int:pk>/', students_edit, name='students-edit'),
     path('contact/', contact, name='contact'),
+    path('register/', register, name='register'),
+    path('login/', custom_login, name='login'),
 
     path('generate_group/', generate_group, name='gen-group'),
     path('groups_list/', groups, name='groups'),

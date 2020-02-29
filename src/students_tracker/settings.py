@@ -125,10 +125,25 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+from celery.schedules import crontab
+
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'UTC'
+CELERY_BEAT_SCHEDULE = {
+    'clean_logger': {
+        'task': 'students.tasks.clean_logger',
+        'schedule': crontab(minute=59, hour=23),
+    },
+}
 
 INTERNAL_IPS = [
     '127.0.0.1'
 ]
+
 
 try:
     from students_tracker.settings_local import *    # DATABASES

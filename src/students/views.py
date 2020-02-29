@@ -2,10 +2,12 @@ from django.http import HttpResponse, \
     HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth import login, authenticate, logout
 
 from students.models import Student
 from students.models import Group
-from students.forms import StudentAddForm, GroupAddForm, ContactForm
+from students.forms import StudentAddForm, GroupAddForm, ContactForm, \
+    UserRegistrationForm, UserLoginForm
 
 
 def generate_student(request):
@@ -120,3 +122,38 @@ def contact(request):
         form = ContactForm()
 
     return render(request, 'contact.html', context={'form': form})
+
+
+def register(request):
+    user_form = UserRegistrationForm
+
+    if request.method == 'POST':
+        form = user_form(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('students'))
+    else:
+        form = user_form()
+
+    return render(request, 'registration.html', context={'form': form})
+
+
+def custom_login(request):
+    user_form = UserLoginForm
+
+    if request.GET.get('logout'):
+        logout(request)
+
+    if request.method == 'POST':
+        form = user_form(request.POST)
+        if form.is_valid():
+            user = authenticate(request,
+                                username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password'],
+                                )
+            login(request, user)
+            return HttpResponseRedirect(reverse('students'))
+    else:
+        form = user_form()
+
+    return render(request, 'login.html', context={'form': form})

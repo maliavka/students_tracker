@@ -1,6 +1,7 @@
 from django.forms import ModelForm, Form, EmailField, CharField, ValidationError
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from students.tasks import send_email_async
 
@@ -71,3 +72,20 @@ class ContactForm(Form):
         # student = Student.objects.create(email=email_from)
         # send_mail(subject, message, email_from, recipient_list)
         send_email_async.delay(subject, message, recipient_list, student.id)
+
+
+class UserRegistrationForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.set_password(self.cleaned_data['password'])
+        instance.is_active = False
+        super().save(commit)
+
+
+class UserLoginForm(Form):
+    username = CharField()
+    password = CharField()
