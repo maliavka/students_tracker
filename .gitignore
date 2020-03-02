@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .idea/
 env/
+settings_local.py
+logs.txt
+
